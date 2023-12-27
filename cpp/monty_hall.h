@@ -7,26 +7,24 @@ class MontyHallEnv {
 			reset();
 		}
 
-		std::vector<double> reset() {
+		int reset() {
 			prize_door_ = dis_(gen_);
-			chosen_door_ = -1;
-			return std::vector<double>(num_doors_, 0.0);
+			chosen_door_ = dis_(gen_);
+			return chosen_door_;
 		}
 
-		std::pair<std::vector<double>, double> step(int action) {
-			if(chosen_door_ == -1) {
-				chosen_door_ = action;
-				return std::make_pair(std::vector<double>(num_doors_, 0.0), 0.0);
-			} else {
-				if(action == 1) {
-					int old_door = chosen_door_;
-					while (chosen_door_ == old_door || chosen_door_ == prize_door_) {
-						chosen_door_ == dis_(gen_);
-					}
-				}
-				double reward = (chosen_door_ == prize_door_) ? 1.0 : 0.0;
-				return std::make_pair(std::vector<double>(num_doors_, 0.0), reward);
-			}
+		std::pair<int, double> step(int action) {
+      if(action == 1) {
+        if(chosen_door_ == prize_door_) {
+          while(chosen_door_ == prize_door_){
+            chosen_door_ = dis_(gen_);
+          }
+        }else{
+                chosen_door_ = prize_door_;
+        }
+      }
+      double reward = (chosen_door_ == prize_door_) ? 1.0 : 0.0;
+      return std::make_pair(chosen_door_, reward);
 		}
 
 	private:
