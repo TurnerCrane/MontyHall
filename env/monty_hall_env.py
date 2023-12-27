@@ -15,10 +15,9 @@ class MontyHallEnv(gym.Env):
         #                                    shape=(config["num_doors"],))
 
     def reset(self, *, seed=None, options=None):
-        #return self.observation_space, {}
-        return self.env.reset()
+        return self.env.reset(), {}
 
     def step(self, action):
         state, reward = self.env.step(action)
-        done = True
-        return state, reward, done, {}
+        done = truncated =  True
+        return (state, reward, done, truncated, {}, )
