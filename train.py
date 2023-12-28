@@ -9,13 +9,14 @@ def train_monty_hall():
     tune.register_env("MontyHallEnv", lambda config: MontyHallEnv(config))
     config = {
       "env": MontyHallEnv,
+      "address": "auto",
       "num_workers": 1,
+      "num_cpus": 2,
       "num_gpus": 1,
-      "use_gpu": True,
       "framework": "torch",
       "env_config": {
-        "num_doors": 3,
-        "seed": 12345
+          "num_doors": 3,
+          "seed": 12345
       }
     }
     stop = {"training_iteration": 10,}
